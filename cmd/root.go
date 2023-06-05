@@ -11,12 +11,18 @@ import (
 	"runtime"
 )
 
+func init() {
+	rootCmd.Version = fmt.Sprintf("%s %s/%s", conf.Version(), runtime.GOOS, runtime.GOARCH)
+	rootCmd.AddCommand(dirCmd)
+}
+
 var rootCmd = &cobra.Command{
-	Use:   "init",
-	Short: "模版初始化工具",
-	Long:  `模版初始化工具，提供从 Git 上拉取模版来初始化项目功能`,
+	Use:     "init",
+	Short:   "模版初始化工具",
+	Long:    `模版初始化工具，提供使用 Git 来拉取远程模版并使用该模版的功能`,
+	Example: "init .",
 	Run: func(cmd *cobra.Command, args []string) {
-		cmd.SetArgs([]string{"-v"})
+
 	},
 }
 
@@ -25,8 +31,4 @@ func Execute() {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
-}
-
-func init() {
-	rootCmd.Version = fmt.Sprintf("%s %s/%s", conf.Version(), runtime.GOOS, runtime.GOARCH)
 }
