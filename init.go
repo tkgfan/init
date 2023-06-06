@@ -3,9 +3,8 @@
 
 package main
 
-import "github.com/tkgfan/init/core"
+import "github.com/tkgfan/init/cmd"
 
 func main() {
-	//cmd.Execute()
-	core.PrepareTemplate()
+	cmd.Execute()
 }

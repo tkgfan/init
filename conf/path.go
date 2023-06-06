@@ -5,7 +5,7 @@ package conf
 
 import (
 	"github.com/tkgfan/init/common/dir"
-	"github.com/tkgfan/init/common/errs"
+	"github.com/tkgfan/init/common/logs"
 	"os"
 	"os/user"
 )
@@ -17,17 +17,17 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	basePath = u.HomeDir + "/init"
+	basePath = u.HomeDir + "/.init"
 
 	// 文件不存在则创建 init 文件夹
 	ok, err := dir.PathExist(basePath)
 	if err != nil {
-		errs.Fatal(err)
+		logs.Fatal(err)
 	}
 	if !ok {
 		err = os.MkdirAll(basePath, os.ModePerm)
 		if err != nil {
-			errs.Fatal(err)
+			logs.Fatal(err)
 		}
 	}
 }
@@ -38,6 +38,10 @@ func BasePath() string {
 }
 
 func TemplatePath() string {
+	return BasePath() + "/" + TemplateDirName()
+}
+
+func TemplateDirName() string {
 	return "template"
 }
 
