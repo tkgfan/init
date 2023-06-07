@@ -1,7 +1,7 @@
 // author gmfan
 // date 2023/6/5
 
-package dir
+package file
 
 import "os"
 

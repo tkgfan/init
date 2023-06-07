@@ -4,7 +4,7 @@
 package conf
 
 import (
-	"github.com/tkgfan/init/common/dir"
+	"github.com/tkgfan/init/common/file"
 	"github.com/tkgfan/init/common/logs"
 	"os"
 	"os/user"
@@ -20,7 +20,7 @@ func init() {
 	basePath = u.HomeDir + "/.init"
 
 	// 文件不存在则创建 init 文件夹
-	ok, err := dir.PathExist(basePath)
+	ok, err := file.PathExist(basePath)
 	if err != nil {
 		logs.Fatal(err)
 	}

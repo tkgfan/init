@@ -3,11 +3,14 @@
 
 package logs
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+)
 
 // Fatal 致命错误
-func Fatal(msg any) {
-	panic(msg)
+func Fatal(args ...any) {
+	log.Fatal(args)
 }
 
 func Info(args ...any) {
