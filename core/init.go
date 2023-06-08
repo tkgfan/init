@@ -50,23 +50,16 @@ func ProjectInit() {
 	logs.Info("初始化项目成功，耗时:", time.Since(initProjectStart))
 }
 
-type PathDirEntry struct {
+// 补充 DirEntry 没有绝对路径信息
+type pathDirEntry struct {
 	// 文件绝对路径
 	Path     string
 	DirEntry os.DirEntry
 }
 
-func (p *PathDirEntry) Size() (size int64, err error) {
-	info, err := p.DirEntry.Info()
-	if err != nil {
-		return -1, err
-	}
-	return info.Size(), err
-}
-
-func ToPathDirEntries(basePath string, ds []os.DirEntry) (res []PathDirEntry) {
+func toPathDirEntries(basePath string, ds []os.DirEntry) (res []pathDirEntry) {
 	for _, d := range ds {
-		res = append(res, PathDirEntry{
+		res = append(res, pathDirEntry{
 			Path:     basePath + "/" + d.Name(),
 			DirEntry: d,
 		})
@@ -80,7 +73,7 @@ func copyTemplate(templatePath, curPath string) {
 		logs.Fatal(err)
 	}
 
-	pds := ToPathDirEntries(curPath, ds)
+	pds := toPathDirEntries(curPath, ds)
 	for i := 0; i < len(pds); i++ {
 		pd := pds[i]
 		dstPath := getDstPath(templatePath, pd.Path)

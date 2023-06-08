@@ -24,7 +24,7 @@ var rootCmd = &cobra.Command{
 	Use:     "init",
 	Short:   "模版初始化工具",
 	Long:    `模版初始化工具，提供使用 Git 来拉取远程模版并使用该模版的功能`,
-	Example: "init .",
+	Example: "init	// 默认初始化当前目录，使用默认 default 模版",
 	Run: func(cmd *cobra.Command, args []string) {
 		core.ProjectInit()
 	},
