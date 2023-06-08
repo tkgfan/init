@@ -11,7 +11,6 @@ import (
 	"io"
 	"os"
 	"strings"
-	"sync"
 	"time"
 )
 
@@ -49,11 +48,8 @@ func ProjectInit() {
 	// 5 拷贝模版到项目中
 	t1 := time.Now().UnixMilli()
 	copyTemplate(templatePath, templatePath)
-	wg.Wait()
 	fmt.Println("耗时", time.Now().UnixMilli()-t1)
 }
-
-var wg = &sync.WaitGroup{}
 
 type PathDirEntry struct {
 	// 文件绝对路径
@@ -98,20 +94,7 @@ func copyTemplate(templatePath, curPath string) {
 				logs.Fatal(err)
 			}
 
-			// 大文件夹则开协程处理
-			size, err := pd.Size()
-			if err != nil {
-				logs.Fatal(err)
-			}
-			if size > 10240 {
-				wg.Add(1)
-				go func() {
-					copyTemplate(templatePath, pd.Path)
-					wg.Done()
-				}()
-			} else {
-				copyTemplate(templatePath, pd.Path)
-			}
+			copyTemplate(templatePath, pd.Path)
 			continue
 		}
 
