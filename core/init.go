@@ -4,7 +4,6 @@
 package core
 
 import (
-	"fmt"
 	"github.com/tkgfan/init/common/file"
 	"github.com/tkgfan/init/common/logs"
 	"github.com/tkgfan/init/conf"
@@ -25,7 +24,6 @@ func ProjectInit() {
 	// 2 同步远程模版
 	if !conf.OnlyUseLocalTemplate {
 		SyncTemplate()
-		logs.Info("同步远程模版成功")
 	} else {
 		logs.Info("仅使用本地模版")
 	}
@@ -39,16 +37,17 @@ func ProjectInit() {
 		logs.Fatal("模版", conf.TemplateName, "不存在")
 	}
 
+	logs.Info("开始初始化项目")
 	// 4 创建项目目录
+	initProjectStart := time.Now()
 	err := os.MkdirAll(conf.ProjectName, os.ModePerm)
 	if err != nil {
 		logs.Fatal(err)
 	}
 
 	// 5 拷贝模版到项目中
-	t1 := time.Now().UnixMilli()
 	copyTemplate(templatePath, templatePath)
-	fmt.Println("耗时", time.Now().UnixMilli()-t1)
+	logs.Info("初始化项目成功，耗时:", time.Since(initProjectStart))
 }
 
 type PathDirEntry struct {
