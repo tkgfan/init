@@ -37,7 +37,7 @@ func ProjectInit() {
 		logs.Fatal("模版", conf.TemplateName, "不存在")
 	}
 
-	logs.Info("开始初始化项目")
+	logs.Info("开始初始化项目,使用", conf.TemplateName, "模版")
 	// 4 创建项目目录
 	initProjectStart := time.Now()
 	err := os.MkdirAll(conf.ProjectName, os.ModePerm)
@@ -77,6 +77,7 @@ func copyTemplate(templatePath, curPath string) {
 	for i := 0; i < len(pds); i++ {
 		pd := pds[i]
 		dstPath := getDstPath(templatePath, pd.Path)
+		dstPath = HandlePlaceholderStr(dstPath)
 
 		// 处理文件夹
 		if pd.DirEntry.IsDir() {
@@ -91,11 +92,11 @@ func copyTemplate(templatePath, curPath string) {
 		}
 
 		// 复制文件
-		copyFile(pd.Path, dstPath)
+		handleFile(pd.Path, dstPath)
 	}
 }
 
-func copyFile(srcPath, dstPath string) {
+func handleFile(srcPath, dstPath string) {
 	// 读取模版文件
 	srcFile, err := os.Open(srcPath)
 	if err != nil {
@@ -106,6 +107,8 @@ func copyFile(srcPath, dstPath string) {
 	if err != nil {
 		logs.Fatal(err)
 	}
+
+	bs = HandlePlaceholderBytes(bs)
 
 	// 创建目标文件
 	dstFile, err := os.Create(dstPath)
