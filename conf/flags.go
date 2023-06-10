@@ -8,6 +8,8 @@ import (
 	"strings"
 )
 
+// root flag
+
 // OnlyUseLocalTemplate 只使用本地模版
 var OnlyUseLocalTemplate bool
 
@@ -36,3 +38,8 @@ func ParsePlaceholders() {
 		}
 	}
 }
+
+// config flag
+
+// Repository 远程仓库地址
+var Repository string

@@ -17,19 +17,16 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	basePath = u.HomeDir + "/.init"
+	basePath = u.HomeDir + string(os.PathSeparator) + ".init"
 
 	// 文件不存在则创建 init 文件夹
-	ok, err := file.PathExist(basePath)
+	_, err = file.IfNotExistCreateDir(basePath)
 	if err != nil {
-		logs.Fatal(err)
+		logs.Fatal("创建文件", basePath, "失败，", err)
 	}
-	if !ok {
-		err = os.MkdirAll(basePath, os.ModePerm)
-		if err != nil {
-			logs.Fatal(err)
-		}
-	}
+
+	// 初始化配置文件
+	InitConfig()
 }
 
 // BasePath BathPath 默认为用户主目录
@@ -38,7 +35,7 @@ func BasePath() string {
 }
 
 func TemplatePath() string {
-	return BasePath() + "/" + TemplateDirName()
+	return BasePath() + string(os.PathSeparator) + TemplateDirName()
 }
 
 func TemplateDirName() string {
@@ -47,5 +44,5 @@ func TemplateDirName() string {
 
 // RemoteTemplatePath 远程模版路径
 func RemoteTemplatePath() string {
-	return "git@github.com:tkgfan/template.git"
+	return Config.Repository
 }

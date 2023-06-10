@@ -29,7 +29,7 @@ func ProjectInit() {
 	}
 
 	// 3 检查模版是否存在
-	templatePath := conf.TemplatePath() + "/" + conf.TemplateName
+	templatePath := conf.TemplatePath() + string(os.PathSeparator) + conf.TemplateName
 	if ok, err := file.PathExist(templatePath); !ok || err != nil {
 		if err != nil {
 			logs.Fatal(err)
@@ -60,7 +60,7 @@ type pathDirEntry struct {
 func toPathDirEntries(basePath string, ds []os.DirEntry) (res []pathDirEntry) {
 	for _, d := range ds {
 		res = append(res, pathDirEntry{
-			Path:     basePath + "/" + d.Name(),
+			Path:     basePath + string(os.PathSeparator) + d.Name(),
 			DirEntry: d,
 		})
 	}
@@ -125,7 +125,7 @@ func handleFile(srcPath, dstPath string) {
 
 // 获取目标路径，templatePath 模版路径，srcPath 模版文件路径
 func getDstPath(templatePath, srcPath string) string {
-	return conf.ProjectName + "/" + srcPath[len(templatePath)+1:]
+	return conf.ProjectName + string(os.PathSeparator) + srcPath[len(templatePath)+1:]
 }
 
 // 项目已经被初始化了
