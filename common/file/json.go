@@ -5,6 +5,7 @@ package file
 
 import (
 	"encoding/json"
+	"io"
 	"os"
 )
 
@@ -26,4 +27,17 @@ func SaveJson(path string, data any) (err error) {
 		return
 	}
 	return
+}
+
+// LoadJson 加载 JSON 文件并反序列化到 p 中
+func LoadJson(path string, p any) (err error) {
+	f, err := os.Open(path)
+	if err != nil {
+		return
+	}
+	bs, err := io.ReadAll(f)
+	if err != nil {
+		return
+	}
+	return json.Unmarshal(bs, p)
 }

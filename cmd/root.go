@@ -14,7 +14,7 @@ import (
 
 func init() {
 	// 注册命令
-	registerCmd()
+	rootCmd.AddCommand(configCmd)
 
 	rootCmd.Version = fmt.Sprintf("%s %s/%s", conf.Version(), runtime.GOOS, runtime.GOARCH)
 
@@ -22,10 +22,6 @@ func init() {
 	rootCmd.Flags().StringVarP(&conf.ProjectName, "name", "n", ".", "项目名称，默认为当前目录")
 	rootCmd.Flags().StringVarP(&conf.TemplateName, "template", "t", "default", "指定模版")
 	conf.Placeholders = rootCmd.Flags().StringSliceP("placeholders", "p", []string{}, "占位符参数使用方法 -p placeholder1=arg1,placeholder2=arg2")
-}
-
-func registerCmd() {
-	rootCmd.AddCommand(configCmd)
 }
 
 var rootCmd = &cobra.Command{
