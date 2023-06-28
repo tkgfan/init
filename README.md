@@ -9,6 +9,16 @@ init 是一个项目初始化工具，主要用于项目的初始化工作。其
 ## 使用
 
 使用`init`命令直接初始化当前目录并默认使用 default 模板(default 模板是指在仓库中根目录为 default 的文件夹下所有的文件)。详细说明使用 -h 参数获取
+```bash
+D:\temp>mkdir test
+D:\temp>cd test
+D:\temp\test>init
+[开始同步远程模版]
+[同步远程模版成功，耗时: 4.5924022s]
+[开始初始化项目,使用 default 模版]
+[初始化项目成功，耗时: 12.748ms]
+D:\temp\test>
+```
 
 ## 特别注意
 
